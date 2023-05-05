@@ -13,6 +13,9 @@
 		0B9C96602A02A7A80084B5A6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0B9C965E2A02A7A80084B5A6 /* Main.storyboard */; };
 		0B9C96622A02A7AA0084B5A6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B9C96612A02A7AA0084B5A6 /* Assets.xcassets */; };
 		0B9C96652A02A7AA0084B5A6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0B9C96632A02A7AA0084B5A6 /* LaunchScreen.storyboard */; };
+		370AA9752A04B9C000CB4283 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370AA9742A04B9C000CB4283 /* LoginViewController.swift */; };
+		370AA9772A04B9FD00CB4283 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370AA9762A04B9FD00CB4283 /* HomeViewController.swift */; };
+		370AA97E2A04BCEB00CB4283 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370AA97D2A04BCEB00CB4283 /* MyPageViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +27,9 @@
 		0B9C96612A02A7AA0084B5A6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0B9C96642A02A7AA0084B5A6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0B9C96662A02A7AA0084B5A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		370AA9742A04B9C000CB4283 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		370AA9762A04B9FD00CB4283 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		370AA97D2A04BCEB00CB4283 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +62,10 @@
 		0B9C96572A02A7A70084B5A6 /* TripInU */ = {
 			isa = PBXGroup;
 			children = (
+				370AA97B2A04BBDB00CB4283 /* CategoryPage */,
+				370AA97A2A04BBD200CB4283 /* LoginPage */,
+				370AA9792A04BBC400CB4283 /* HomePage */,
+				370AA9782A04BBB300CB4283 /* MyPage */,
 				0B9C96582A02A7A70084B5A6 /* AppDelegate.swift */,
 				0B9C965A2A02A7A70084B5A6 /* SceneDelegate.swift */,
 				0B9C965C2A02A7A70084B5A6 /* ViewController.swift */,
@@ -65,6 +75,37 @@
 				0B9C96662A02A7AA0084B5A6 /* Info.plist */,
 			);
 			path = TripInU;
+			sourceTree = "<group>";
+		};
+		370AA9782A04BBB300CB4283 /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				370AA97D2A04BCEB00CB4283 /* MyPageViewController.swift */,
+			);
+			path = MyPage;
+			sourceTree = "<group>";
+		};
+		370AA9792A04BBC400CB4283 /* HomePage */ = {
+			isa = PBXGroup;
+			children = (
+				370AA9762A04B9FD00CB4283 /* HomeViewController.swift */,
+			);
+			path = HomePage;
+			sourceTree = "<group>";
+		};
+		370AA97A2A04BBD200CB4283 /* LoginPage */ = {
+			isa = PBXGroup;
+			children = (
+				370AA9742A04B9C000CB4283 /* LoginViewController.swift */,
+			);
+			path = LoginPage;
+			sourceTree = "<group>";
+		};
+		370AA97B2A04BBDB00CB4283 /* CategoryPage */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CategoryPage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,6 +179,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				370AA9772A04B9FD00CB4283 /* HomeViewController.swift in Sources */,
+				370AA97E2A04BCEB00CB4283 /* MyPageViewController.swift in Sources */,
+				370AA9752A04B9C000CB4283 /* LoginViewController.swift in Sources */,
 				0B9C965D2A02A7A70084B5A6 /* ViewController.swift in Sources */,
 				0B9C96592A02A7A70084B5A6 /* AppDelegate.swift in Sources */,
 				0B9C965B2A02A7A70084B5A6 /* SceneDelegate.swift in Sources */,
