@@ -1,0 +1,6 @@
+framework module Pods_TripInU {
+  umbrella header "Pods-TripInU-umbrella.h"
+
+  export *
+  module * { export * }
+}
