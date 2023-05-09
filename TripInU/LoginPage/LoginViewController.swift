@@ -291,7 +291,7 @@ extension LoginViewController: UITextFieldDelegate {
             passwordInfoLabelCenterYConstraint.constant = -13
         }
         
-        // 실제 레이아웃 변경은 애니메이션으로 줄꺼야
+        // 실제 레이아웃 변경은 애니메이션
         UIView.animate(withDuration: 0.3) {
             self.stackView.layoutIfNeeded()
         }
@@ -317,7 +317,7 @@ extension LoginViewController: UITextFieldDelegate {
             }
         }
         
-        // 실제 레이아웃 변경은 애니메이션으로 줄꺼야
+        // 실제 레이아웃 변경은 애니메이션으로
         UIView.animate(withDuration: 0.3) {
             self.stackView.layoutIfNeeded()
         }
