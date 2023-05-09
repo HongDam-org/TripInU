@@ -13,8 +13,10 @@ class SignUpViewController: UIViewController {
     //email
     private lazy var emailTextFieldView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.darkGray
+        view.backgroundColor = .clear
         view.layer.cornerRadius = 5
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.gray.cgColor
         view.clipsToBounds = true
         view.addSubview(emailLabel)
         view.addSubview(emailTextField)
@@ -24,15 +26,15 @@ class SignUpViewController: UIViewController {
         let label = UILabel()
         label.text = "이메일 주소"
         label.font = UIFont.systemFont(ofSize: 18)
-        label.textColor = .white
+        label.textColor = .lightGray
         return label
     }()
     private var emailTextField: UITextField = {
         var tf = UITextField()
         tf.frame.size.height = 48
         tf.backgroundColor = .clear
-        tf.textColor = .white
-        tf.tintColor = .white
+        tf.textColor = .black
+        tf.tintColor = .black
         tf.autocapitalizationType = .none
         tf.autocorrectionType = .no
         tf.spellCheckingType = .no
@@ -44,8 +46,10 @@ class SignUpViewController: UIViewController {
     //password
     private lazy var passwordTextFieldView: UIView = {
         let view = UIView()
-        view.backgroundColor = .darkGray
+        view.backgroundColor = .clear
         view.layer.cornerRadius = 5
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.gray.cgColor
         view.clipsToBounds = true
         view.addSubview(passwordLabel)
         view.addSubview(passwordTextField)
@@ -55,15 +59,15 @@ class SignUpViewController: UIViewController {
         let label = UILabel()
         label.text = "비밀번호"
         label.font = UIFont.systemFont(ofSize: 18)
-        label.textColor = .white
+        label.textColor = .lightGray
         return label
     }()
     private lazy var passwordTextField: UITextField = {
         var tf = UITextField()
         tf.frame.size.height = 48
         tf.backgroundColor = .clear
-        tf.textColor = .white
-        tf.tintColor = .white
+        tf.textColor = .black
+        tf.tintColor = .black
         tf.autocapitalizationType = .none
         tf.autocorrectionType = .no
         tf.spellCheckingType = .no
@@ -75,8 +79,10 @@ class SignUpViewController: UIViewController {
     //password check
     private lazy var passwordCheckTextFieldView: UIView = {
         let view = UIView()
-        view.backgroundColor = .darkGray
+        view.backgroundColor = .clear
         view.layer.cornerRadius = 5
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.gray.cgColor
         view.clipsToBounds = true
         view.addSubview(passwordCheckLabel)
         view.addSubview(passwordCheckTextField)
@@ -86,7 +92,7 @@ class SignUpViewController: UIViewController {
         let label = UILabel()
         label.text = "비밀번호 확인"
         label.font = UIFont.systemFont(ofSize: 18)
-        label.textColor = .white
+        label.textColor = .lightGray
         return label
     }()
     private lazy var passwordCheckTextField: UITextField = {
@@ -103,13 +109,15 @@ class SignUpViewController: UIViewController {
     
     private lazy var registerButton : UIButton = {
         let button = UIButton(type: .custom)
-        button.backgroundColor = .clear
+        button.backgroundColor = .darkGray
         button.layer.cornerRadius = 5
         button.layer.borderWidth = 1
-        button.layer.borderColor = #colorLiteral(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
-        button.setTitle("가입하기", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
-        
+        button.layer.borderColor = UIColor.gray.cgColor
+        button.setTitle("회원가입", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.isEnabled = false
+     
         button.addTarget(self, action: #selector(signupButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -129,9 +137,9 @@ class SignUpViewController: UIViewController {
               let password = passwordTextField.text,
               !password.isEmpty,
               
-            let passwordChecked = passwordCheckTextField.text,
+                let passwordChecked = passwordCheckTextField.text,
               !passwordChecked.isEmpty
-        
+                
         else {
             emailLabel.text = "모든 필드를 채워주세요"
             passwordCheckLabel.textColor = .white
@@ -144,7 +152,7 @@ class SignUpViewController: UIViewController {
             passwordTextField.becomeFirstResponder() //커서이동
             return
         }
-      
+        
         
         
         //성공했을때
@@ -167,7 +175,7 @@ class SignUpViewController: UIViewController {
                 }
             }
             
-           
+            
             
         }
         
@@ -179,11 +187,7 @@ class SignUpViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .black
-        //        view.addSubview(emailTextFieldView)
-        //        view.addSubview(passwordTextFieldView)
-        //        view.addSubview(passwordCheckTextFieldView)
-        //        view.addSubview(registerButton)
+        view.backgroundColor = .white
         view.addSubview(stackView)
         configure()
         setUp()
@@ -217,7 +221,7 @@ class SignUpViewController: UIViewController {
             
             emailLabel.leadingAnchor.constraint(equalTo: emailTextFieldView.leadingAnchor, constant: 8),
             emailLabel.trailingAnchor.constraint(equalTo: emailTextFieldView.trailingAnchor, constant: -8),
-           
+            
             emailTextField.topAnchor.constraint(equalTo: emailTextFieldView.topAnchor, constant: 15),
             emailTextField.bottomAnchor.constraint(equalTo: emailTextFieldView.bottomAnchor, constant: -2),
             emailTextField.leadingAnchor.constraint(equalTo: emailTextFieldView.leadingAnchor, constant: 8),
@@ -262,20 +266,20 @@ extension SignUpViewController : UITextFieldDelegate{
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
         if textField == emailTextField {
-            emailTextFieldView.backgroundColor = #colorLiteral(red: 0.2972877622, green: 0.2973434925, blue: 0.297280401, alpha: 1)
+            emailTextFieldView.backgroundColor = .clear
             emailLabel.font = UIFont.systemFont(ofSize: 11)
             // 오토레이아웃 업데이트
             emailLabelCenterYConstraint.constant = -13
         }
         
         if textField == passwordTextField {
-            passwordTextFieldView.backgroundColor = #colorLiteral(red: 0.2972877622, green: 0.2973434925, blue: 0.297280401, alpha: 1)
+            passwordTextFieldView.backgroundColor = .clear
             passwordLabel.font = UIFont.systemFont(ofSize: 11)
             // 오토레이아웃 업데이트
             passwordLabelCenterYConstraint.constant = -13
         }
         if textField == passwordCheckTextField {
-            passwordCheckTextFieldView.backgroundColor = #colorLiteral(red: 0.2972877622, green: 0.2973434925, blue: 0.297280401, alpha: 1)
+            passwordCheckTextFieldView.backgroundColor = .clear
             passwordCheckLabel.font = UIFont.systemFont(ofSize: 11)
             // 오토레이아웃 업데이트
             passwordCheckLabelCenterYConstraint.constant = -13
@@ -289,7 +293,7 @@ extension SignUpViewController : UITextFieldDelegate{
     func textFieldDidEndEditing(_ textField: UITextField) {
         
         if textField == emailTextField {
-            emailTextFieldView.backgroundColor = #colorLiteral(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
+            emailTextFieldView.backgroundColor = .clear
             // 빈칸이면 원래로 되돌리기
             if emailTextField.text == "" {
                 emailLabel.font = UIFont.systemFont(ofSize: 18)
@@ -297,7 +301,7 @@ extension SignUpViewController : UITextFieldDelegate{
             }
         }
         if textField == passwordTextField {
-            passwordTextFieldView.backgroundColor = #colorLiteral(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
+            passwordTextFieldView.backgroundColor = .clear
             // 빈칸이면 원래로 되돌리기
             if passwordTextField.text == "" {
                 passwordLabel.font = UIFont.systemFont(ofSize: 18)
@@ -305,7 +309,7 @@ extension SignUpViewController : UITextFieldDelegate{
             }
         }
         if textField == passwordCheckTextField {
-            passwordCheckTextFieldView.backgroundColor = #colorLiteral(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
+            passwordCheckTextFieldView.backgroundColor = .clear
             // 빈칸이면 원래로 되돌리기
             if passwordCheckTextField.text == "" {
                 passwordCheckLabel.font = UIFont.systemFont(ofSize: 18)
