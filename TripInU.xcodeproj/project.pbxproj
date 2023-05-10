@@ -16,7 +16,7 @@
 		370AA9772A04B9FD00CB4283 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370AA9762A04B9FD00CB4283 /* HomeViewController.swift */; };
 		370AA97E2A04BCEB00CB4283 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370AA97D2A04BCEB00CB4283 /* MyPageViewController.swift */; };
 		379A899B2A07A5B300CCBD6B /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379A899A2A07A5B300CCBD6B /* SignUpViewController.swift */; };
-		37A477A42A076DAC00586D18 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 37A477A32A076DAB00586D18 /* GoogleService-Info.plist */; };
+		37E11E332A0BB11B009CAFC6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 37E11E322A0BB11B009CAFC6 /* GoogleService-Info.plist */; };
 		C812A0C91B707F0D0B1837A8 /* Pods_TripInU.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADA176475B4254D7FAF9EA2D /* Pods_TripInU.framework */; };
 /* End PBXBuildFile section */
 
@@ -33,7 +33,7 @@
 		370AA97D2A04BCEB00CB4283 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		3755E4572A0AA0C10023189D /* TripInU.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TripInU.entitlements; sourceTree = "<group>"; };
 		379A899A2A07A5B300CCBD6B /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
-		37A477A32A076DAB00586D18 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		37E11E322A0BB11B009CAFC6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		805259BB1BF84B3C30EBA1B7 /* Pods-TripInU.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TripInU.release.xcconfig"; path = "Target Support Files/Pods-TripInU/Pods-TripInU.release.xcconfig"; sourceTree = "<group>"; };
 		ADA176475B4254D7FAF9EA2D /* Pods_TripInU.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TripInU.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D663A7690C2B42E471A15480 /* Pods-TripInU.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TripInU.debug.xcconfig"; path = "Target Support Files/Pods-TripInU/Pods-TripInU.debug.xcconfig"; sourceTree = "<group>"; };
@@ -82,7 +82,7 @@
 				0B9C96612A02A7AA0084B5A6 /* Assets.xcassets */,
 				0B9C96632A02A7AA0084B5A6 /* LaunchScreen.storyboard */,
 				0B9C96662A02A7AA0084B5A6 /* Info.plist */,
-				37A477A32A076DAB00586D18 /* GoogleService-Info.plist */,
+				37E11E322A0BB11B009CAFC6 /* GoogleService-Info.plist */,
 			);
 			path = TripInU;
 			sourceTree = "<group>";
@@ -191,8 +191,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				0B9C96652A02A7AA0084B5A6 /* LaunchScreen.storyboard in Resources */,
-				37A477A42A076DAC00586D18 /* GoogleService-Info.plist in Resources */,
 				0B9C96622A02A7AA0084B5A6 /* Assets.xcassets in Resources */,
+				37E11E332A0BB11B009CAFC6 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

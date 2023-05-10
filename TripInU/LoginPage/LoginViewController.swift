@@ -237,6 +237,7 @@ class LoginViewController: UIViewController {
         [stackView, signUpButton,separateLine,snsLabel,snsLoginStackView].forEach { view.addSubview($0) }
        
         GIDSignIn.sharedInstance()?.delegate = self
+        
     }
     
     // 오토레이아웃
@@ -316,14 +317,22 @@ class LoginViewController: UIViewController {
         // 이미 텍스트필드에 내장되어 있는 기능
         passwordTextField.isSecureTextEntry.toggle()
     }
+    
     @objc func googleButtonTapped(){
-     
         GIDSignIn.sharedInstance()?.signIn()
         print(#function)
     }
+    
     @objc func appleButtonTapped(){
         
-        print("눌림")
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+           let request = appleIDProvider.createRequest()
+           request.requestedScopes = [.fullName, .email]
+
+           let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+           authorizationController.delegate = self
+           authorizationController.presentationContextProvider = self
+           authorizationController.performRequests()
         
         
     }
@@ -370,8 +379,7 @@ class LoginViewController: UIViewController {
         
         let signUpViewController = SignUpViewController()
         self.navigationController?.pushViewController(signUpViewController, animated: true)
-        // signUpViewController.modalPresentationStyle = .fullScreen
-        //  present(signUpViewController,animated: true,completion: nil)
+
         
         
     }
@@ -492,5 +500,40 @@ extension LoginViewController: GIDSignInDelegate {
     }
 }
 
+extension LoginViewController: ASAuthorizationControllerDelegate {
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        print("Authorization Error: \(error.localizedDescription)")
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            // User authorized
+//            let userIdentifier = appleIDCredential.user
+//            let fullName = appleIDCredential.fullName
+//            let email = appleIDCredential.email
+            
+            // Use the credential information to create a Firebase account
+            let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: String(data: appleIDCredential.identityToken!, encoding: .utf8)!, rawNonce: "")
+            Auth.auth().signIn(with: credential) { (authResult, error) in
+                if let error = error {
+                    print("Firebase Authentication Error: \(error.localizedDescription)")
+                    return
+                }
+                
+                // User is signed in
+                self.navigationController?.pushViewController(ViewController(), animated: true)
 
+                
+              
+            }
+        }
+    }
+}
 
+extension LoginViewController: ASAuthorizationControllerPresentationContextProviding {
+    
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window!
+    }
+}
