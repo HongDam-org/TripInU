@@ -131,22 +131,48 @@ class SignUpViewController: UIViewController {
         return stview
     }()
     @objc func signupButtonTapped(){
-        print(#function)
+        
         guard let email = emailTextField.text,
-              !email.isEmpty,
-              let password = passwordTextField.text,
-              !password.isEmpty,
+                 !email.isEmpty,
+                 let password = passwordTextField.text,
+                 !password.isEmpty,
+                 
+                 let passwordChecked = passwordCheckTextField.text,
+                 !passwordChecked.isEmpty
+                       
+           else {
+            InitsinupText()
+               emailLabel.text = "모든 필드를 채워주세요"
               
-             let passwordChecked = passwordCheckTextField.text,
-              !passwordChecked.isEmpty
+                   
+               return
+           }
+           
+           if !email.isValidEmailFormat() {
+               InitsinupText()
+               emailLabel.text = "이메일 형식이 올바르지 않습니다."
+               
+               return
+           }
+           
+           if password.count < 6 {
+           
+              
+               InitsinupText()
+               passwordLabel.text = "비밀번호는 6자리 이상이어야 합니다."
+               return
+           }
+           
+           if password != passwordChecked {
+               InitsinupText()
+               passwordCheckLabel.text = "비밀번호를 확인해주세요"
+               passwordCheckLabel.textColor = .red
+               passwordTextField.becomeFirstResponder() //커서이동
+               return
+           }
+          
                 
-        else {
-            emailLabel.text = "모든 필드를 채워주세요"
-            passwordCheckLabel.text = "비밀번호 확인"
-            passwordCheckLabel.textColor = .lightGray
-            
-            return
-        }
+
         if password != passwordChecked {
             emailLabel.text = "이메일 주소"
             passwordCheckLabel.text = "비밀번호를 확인해주세요"
@@ -250,7 +276,7 @@ class SignUpViewController: UIViewController {
             stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            stackView.heightAnchor.constraint(equalToConstant: textViewHeight*4 + 36)
+            stackView.heightAnchor.constraint(equalToConstant: textViewHeight*4 + 64)
             
             
             
@@ -258,8 +284,12 @@ class SignUpViewController: UIViewController {
         
     }
     
-    //password passCheck비교해서 같으면 버튼 빨간색, 다르면 passwordLabel의 텍스트가 빨간색 비밀번호를 확인해주세요.
-    
+    func InitsinupText(){
+        emailLabel.text = "이메일 주소"
+        passwordLabel.text = "비밀번호"
+        passwordCheckLabel.text = "비밀번호 확인"
+        passwordCheckLabel.textColor = .lightGray
+    }
     
     
 }
@@ -300,6 +330,7 @@ extension SignUpViewController : UITextFieldDelegate{
             if emailTextField.text == "" {
                 emailLabel.font = UIFont.systemFont(ofSize: 18)
                 emailLabelCenterYConstraint.constant = 0
+                emailLabel.text = "이메일 주소"
             }
         }
         if textField == passwordTextField {
@@ -308,6 +339,7 @@ extension SignUpViewController : UITextFieldDelegate{
             if passwordTextField.text == "" {
                 passwordLabel.font = UIFont.systemFont(ofSize: 18)
                 passwordLabelCenterYConstraint.constant = 0
+                passwordLabel.text = "비밀번호"
             }
         }
         if textField == passwordCheckTextField {
@@ -316,6 +348,7 @@ extension SignUpViewController : UITextFieldDelegate{
             if passwordCheckTextField.text == "" {
                 passwordCheckLabel.font = UIFont.systemFont(ofSize: 18)
                 passwordCheckLabelCenterYConstraint.constant = 0
+                passwordCheckLabel.text = "비밀번호 확인"
             }
         }
         

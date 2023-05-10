@@ -106,7 +106,6 @@ class LoginViewController: UIViewController {
         button.setTitle("로그인", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
-        button.isEnabled = false
         button.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -453,7 +452,7 @@ extension LoginViewController: UITextFieldDelegate {
             let email = emailTextField.text, !email.isEmpty,
             let password = passwordTextField.text, !password.isEmpty
         else {
-            loginButton.backgroundColor = .clear
+            loginButton.backgroundColor = .darkGray
             loginButton.isEnabled = false
             return
         }
@@ -508,12 +507,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
-            // User authorized
-//            let userIdentifier = appleIDCredential.user
-//            let fullName = appleIDCredential.fullName
-//            let email = appleIDCredential.email
-            
-            // Use the credential information to create a Firebase account
+
             let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: String(data: appleIDCredential.identityToken!, encoding: .utf8)!, rawNonce: "")
             Auth.auth().signIn(with: credential) { (authResult, error) in
                 if let error = error {
