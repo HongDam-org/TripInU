@@ -7,18 +7,40 @@
 
 import UIKit
 import FirebaseCore
+import GoogleSignIn
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
+class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+            if let error = error {
+                // Handle error
+                print("Google Sign-In Error: \(error.localizedDescription)")
+                return
+            }
+            
+//            
+//            let userId = user.userID
+//            let email = user.profile.email
+//            let fullName = user.profile.name
+//            let givenName = user.profile.givenName
+//            let familyName = user.profile.familyName
+            
+         
+        }
+    
+ 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
-        
+        // GoogleSignIn 초기화
+        GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
+        GIDSignIn.sharedInstance().delegate = self
+
         return true
     }
+   
+      
 
     // MARK: UISceneSession Lifecycle
 

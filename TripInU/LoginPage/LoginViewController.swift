@@ -8,10 +8,12 @@
 
 import UIKit
 import FirebaseAuth
+import AuthenticationServices
+import GoogleSignIn
 
 class LoginViewController: UIViewController {
     
-  
+    
     private lazy var emailTextFieldView : UIView = {
         let view = UIView()
         view.backgroundColor = .clear
@@ -71,7 +73,6 @@ class LoginViewController: UIViewController {
     // 로그인 - 비밀번호 입력 필드
     private lazy var passwordTextField: UITextField = {
         let tf = UITextField()
-        tf.backgroundColor = #colorLiteral(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
         tf.frame.size.height = 48
         tf.backgroundColor = .clear
         tf.textColor = .black
@@ -130,9 +131,71 @@ class LoginViewController: UIViewController {
         button.setTitleColor(.darkGray, for: .normal)
         button.setTitle("회원가입", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
-        button.addTarget(self, action: #selector(signUpButtonTapped  ), for: .touchUpInside)
+        button.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
         return button
     }()
+    
+    
+    //sns로그인 구분선
+    let separateLine : UIView = {
+        let line = UIView()
+        line.backgroundColor = .lightGray
+        return line
+    }()
+    //sns로그인 라벨
+    let snsLabel : UILabel = {
+        let label = UILabel()
+        label.text = " SNS계정으로 로그인 "
+        label.textColor = .gray
+        label.font = UIFont.systemFont(ofSize: 15)
+        label.backgroundColor = .white
+        return label
+    }()
+    
+    //google 로그인
+    private lazy var googleLoginButton: UIButton = {
+        let button = UIButton()
+        
+        button.bounds.size.height = 65
+        button.layer.cornerRadius = button.bounds.size.height / 2
+        button.clipsToBounds = true
+        button.layer.masksToBounds = true
+        button.setImage(UIImage(named: "google_icon"), for: .normal)
+        button.backgroundColor = .white
+        
+        button.layer.borderWidth = 2
+        button.layer.borderColor = UIColor.lightGray.cgColor
+        button.contentMode = .scaleAspectFit
+        button.contentEdgeInsets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+        button.addTarget(self, action: #selector(googleButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    //apple 로그인
+    private lazy var appleLoginButton: UIButton = {
+        let button = UIButton()
+        button.bounds.size.height = 65
+        button.backgroundColor = .white
+        button.layer.cornerRadius = button.bounds.size.height / 2
+        button.clipsToBounds = true
+        button.layer.masksToBounds = true
+        button.setImage(UIImage(named: "apple_icon"), for: .normal)
+        button.contentMode = .scaleAspectFit
+        button.addTarget(self, action: #selector(appleButtonTapped), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    
+    //stack으로 묶기
+    private lazy var snsLoginStackView: UIStackView = {
+        let stview = UIStackView(arrangedSubviews: [googleLoginButton, appleLoginButton])
+        stview.spacing = 20
+        stview.axis = .horizontal
+        stview.distribution = .fillEqually
+        stview.alignment = .fill
+        return stview
+    }()
+    
     // 3개의 각 텍스트필드 및 로그인 버튼의 높이 설정
     private let textViewHeight: CGFloat = 48
     
@@ -140,91 +203,130 @@ class LoginViewController: UIViewController {
     lazy var emailInfoLabelCenterYConstraint = emailLabel.centerYAnchor.constraint(equalTo: emailTextFieldView.centerYAnchor)
     lazy var passwordInfoLabelCenterYConstraint = passwordInfoLabel.centerYAnchor.constraint(equalTo: passwordTextFieldView.centerYAnchor)
     
+    // MARK : -viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        
         setNavi()
         configure()
         setupAutoLayout()
+        setupGoogle()
+    }
+    func setupGoogle(){
+        GIDSignIn.sharedInstance()?.presentingViewController = self
+        GIDSignIn.sharedInstance()?.delegate = self
     }
     func setNavi(){
         // 네비게이션 초기화
-           let navigationController = UINavigationController(rootViewController: self)
-           navigationController.navigationBar.prefersLargeTitles = true
-           navigationController.navigationBar.isTranslucent = true
-           navigationController.navigationBar.tintColor = .darkGray
-           
-           // 네비게이션 root세팅
-           if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate,
-              let window = sceneDelegate.window {
-               window.rootViewController = navigationController
-               window.makeKeyAndVisible()}
+        let navigationController = UINavigationController(rootViewController: self)
+        navigationController.navigationBar.prefersLargeTitles = true
+        navigationController.navigationBar.isTranslucent = true
+        navigationController.navigationBar.tintColor = .darkGray
+        
+        // 네비게이션 root세팅
+        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate,
+           let window = sceneDelegate.window {
+            window.rootViewController = navigationController
+            window.makeKeyAndVisible()}
     }
     // 셋팅
     private func configure() {
         view.backgroundColor = .white
         emailTextField.delegate = self
         passwordTextField.delegate = self
-        [stackView, signUpButton].forEach { view.addSubview($0) }
+        [stackView, signUpButton,separateLine,snsLabel,snsLoginStackView].forEach { view.addSubview($0) }
+       
+        GIDSignIn.sharedInstance()?.delegate = self
     }
     
     // 오토레이아웃
     private func setupAutoLayout() {
-        
         emailLabel.translatesAutoresizingMaskIntoConstraints = false
-        emailLabel.leadingAnchor.constraint(equalTo: emailTextFieldView.leadingAnchor, constant: 8).isActive = true
-        emailLabel.trailingAnchor.constraint(equalTo: emailTextFieldView.trailingAnchor, constant: -8).isActive = true
-        
-        emailInfoLabelCenterYConstraint.isActive = true
-        
         emailTextField.translatesAutoresizingMaskIntoConstraints = false
-        emailTextField.topAnchor.constraint(equalTo: emailTextFieldView.topAnchor, constant: 15).isActive = true
-        emailTextField.bottomAnchor.constraint(equalTo: emailTextFieldView.bottomAnchor, constant: -2).isActive = true
-        emailTextField.leadingAnchor.constraint(equalTo: emailTextFieldView.leadingAnchor, constant: 8).isActive = true
-        emailTextField.trailingAnchor.constraint(equalTo: emailTextFieldView.trailingAnchor, constant: -8).isActive = true
-        
         passwordInfoLabel.translatesAutoresizingMaskIntoConstraints = false
-        passwordInfoLabel.leadingAnchor.constraint(equalTo: passwordTextFieldView.leadingAnchor, constant: 8).isActive = true
-        passwordInfoLabel.trailingAnchor.constraint(equalTo: passwordTextFieldView.trailingAnchor, constant: -8).isActive = true
-        
-        passwordInfoLabelCenterYConstraint.isActive = true
-        
-        
         passwordTextField.translatesAutoresizingMaskIntoConstraints = false
-        passwordTextField.topAnchor.constraint(equalTo: passwordTextFieldView.topAnchor, constant: 15).isActive = true
-        passwordTextField.bottomAnchor.constraint(equalTo: passwordTextFieldView.bottomAnchor, constant: -2).isActive = true
-        passwordTextField.leadingAnchor.constraint(equalTo: passwordTextFieldView.leadingAnchor, constant: 8).isActive = true
-        passwordTextField.trailingAnchor.constraint(equalTo: passwordTextFieldView.trailingAnchor, constant: -8).isActive = true
-        
         passwordSecureButton.translatesAutoresizingMaskIntoConstraints = false
-        passwordSecureButton.topAnchor.constraint(equalTo: passwordTextFieldView.topAnchor, constant: 15).isActive = true
-        passwordSecureButton.bottomAnchor.constraint(equalTo: passwordTextFieldView.bottomAnchor, constant: -15).isActive = true
-        passwordSecureButton.trailingAnchor.constraint(equalTo: passwordTextFieldView.trailingAnchor, constant: -8).isActive = true
-        
-        
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
-        stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30).isActive = true
-        stackView.heightAnchor.constraint(equalToConstant: textViewHeight*3 + 36).isActive = true
-        
-        
         signUpButton.translatesAutoresizingMaskIntoConstraints = false
-        signUpButton.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 10).isActive = true
-        signUpButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
-        signUpButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30).isActive = true
-        signUpButton.heightAnchor.constraint(equalToConstant: textViewHeight).isActive = true
-        
+        separateLine.translatesAutoresizingMaskIntoConstraints = false
+        snsLabel.translatesAutoresizingMaskIntoConstraints = false
+        snsLoginStackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            
+            emailLabel.leadingAnchor.constraint(equalTo: emailTextFieldView.leadingAnchor, constant: 8),
+            emailLabel.trailingAnchor.constraint(equalTo: emailTextFieldView.trailingAnchor, constant: -8),
+            
+            emailInfoLabelCenterYConstraint,
+            
+            
+            emailTextField.topAnchor.constraint(equalTo: emailTextFieldView.topAnchor, constant: 15),
+            emailTextField.bottomAnchor.constraint(equalTo: emailTextFieldView.bottomAnchor, constant: -2),
+            emailTextField.leadingAnchor.constraint(equalTo: emailTextFieldView.leadingAnchor, constant: 8),
+            emailTextField.trailingAnchor.constraint(equalTo: emailTextFieldView.trailingAnchor, constant: -8),
+            
+            
+            passwordInfoLabel.leadingAnchor.constraint(equalTo: passwordTextFieldView.leadingAnchor, constant: 8),
+            passwordInfoLabel.trailingAnchor.constraint(equalTo: passwordTextFieldView.trailingAnchor, constant: -8),
+            
+            passwordInfoLabelCenterYConstraint,
+            
+            passwordTextField.topAnchor.constraint(equalTo: passwordTextFieldView.topAnchor, constant: 15),
+            passwordTextField.bottomAnchor.constraint(equalTo: passwordTextFieldView.bottomAnchor, constant: -2),
+            passwordTextField.leadingAnchor.constraint(equalTo: passwordTextFieldView.leadingAnchor, constant: 8),
+            passwordTextField.trailingAnchor.constraint(equalTo: passwordTextFieldView.trailingAnchor, constant: -8),
+            
+            
+            passwordSecureButton.topAnchor.constraint(equalTo: passwordTextFieldView.topAnchor, constant: 15),
+            passwordSecureButton.bottomAnchor.constraint(equalTo: passwordTextFieldView.bottomAnchor, constant: -15),
+            passwordSecureButton.trailingAnchor.constraint(equalTo: passwordTextFieldView.trailingAnchor, constant: -8),
+            
+            
+            
+            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            stackView.heightAnchor.constraint(equalToConstant: textViewHeight*3 + 36),
+            
+            
+            signUpButton.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 10),
+            signUpButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            signUpButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            signUpButton.heightAnchor.constraint(equalToConstant: textViewHeight),
+            
+            
+            separateLine.topAnchor.constraint(equalTo: signUpButton.bottomAnchor, constant: 20),
+            separateLine.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            separateLine.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            separateLine.heightAnchor.constraint(equalToConstant: 1),
+            
+            snsLabel.centerXAnchor.constraint(equalTo: separateLine.centerXAnchor),
+            snsLabel.centerYAnchor.constraint(equalTo: separateLine.centerYAnchor),
+            
+            snsLoginStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            snsLoginStackView.topAnchor.constraint(equalTo: snsLabel.bottomAnchor, constant: 10),
+            snsLoginStackView.heightAnchor.constraint(equalToConstant: 65),
+            snsLoginStackView.widthAnchor.constraint(equalToConstant: 65*2 + 20)
+            
+        ])
     }
-    
     
     // MARK: - 비밀번호 가리기 모드 켜고 끄기
     @objc private func passwordSecureModeSetting() {
         // 이미 텍스트필드에 내장되어 있는 기능
         passwordTextField.isSecureTextEntry.toggle()
     }
-    
+    @objc func googleButtonTapped(){
+     
+        GIDSignIn.sharedInstance()?.signIn()
+        print(#function)
+    }
+    @objc func appleButtonTapped(){
+        
+        print("눌림")
+        
+        
+    }
     // 로그인 버튼 누르면 동작하는 함수
     @objc func loginButtonTapped() {
         
@@ -265,13 +367,12 @@ class LoginViewController: UIViewController {
     @objc func signUpButtonTapped() {
         //회원가입 화면으로 이동
         print(#function)
-       
+        
         let signUpViewController = SignUpViewController()
-        print(navigationController)
         self.navigationController?.pushViewController(signUpViewController, animated: true)
         // signUpViewController.modalPresentationStyle = .fullScreen
-      //  present(signUpViewController,animated: true,completion: nil)
-       
+        //  present(signUpViewController,animated: true,completion: nil)
+        
         
     }
     
@@ -362,6 +463,34 @@ extension LoginViewController: UITextFieldDelegate {
 
 
 
+extension LoginViewController: GIDSignInDelegate {
+
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        if let error = error {
+            print("Google Sign-In Error: \(error.localizedDescription)")
+            return
+        }
+
+        guard let authentication = user.authentication else {
+            print("Unable to get authentication object from Google User")
+            return
+        }
+
+        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
+                                                       accessToken: authentication.accessToken)
+        Auth.auth().signIn(with: credential) { (authResult, error) in
+            if let error = error {
+                print("Firebase Authentication Error: \(error.localizedDescription)")
+                return
+            }
+
+            print("User successfully signed in with Google")
+            
+            self.navigationController?.pushViewController(ViewController(), animated: true)
+
+        }
+    }
+}
 
 
 

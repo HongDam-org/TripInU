@@ -99,8 +99,8 @@ class SignUpViewController: UIViewController {
         var tf = UITextField()
         tf.frame.size.height = 48
         tf.backgroundColor = .clear
-        tf.textColor = .white
-        tf.tintColor = .white
+        tf.textColor = .black
+        tf.tintColor = .black
         tf.autocapitalizationType = .none
         tf.autocorrectionType = .no
         tf.spellCheckingType = .no
@@ -116,7 +116,7 @@ class SignUpViewController: UIViewController {
         button.setTitle("회원가입", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
-        button.isEnabled = false
+      
      
         button.addTarget(self, action: #selector(signupButtonTapped), for: .touchUpInside)
         return button
@@ -137,16 +137,18 @@ class SignUpViewController: UIViewController {
               let password = passwordTextField.text,
               !password.isEmpty,
               
-                let passwordChecked = passwordCheckTextField.text,
+             let passwordChecked = passwordCheckTextField.text,
               !passwordChecked.isEmpty
                 
         else {
             emailLabel.text = "모든 필드를 채워주세요"
-            passwordCheckLabel.textColor = .white
+            passwordCheckLabel.text = "비밀번호 확인"
+            passwordCheckLabel.textColor = .lightGray
             
             return
         }
         if password != passwordChecked {
+            emailLabel.text = "이메일 주소"
             passwordCheckLabel.text = "비밀번호를 확인해주세요"
             passwordCheckLabel.textColor = .red
             passwordTextField.becomeFirstResponder() //커서이동
@@ -155,9 +157,9 @@ class SignUpViewController: UIViewController {
         
         
         
+        
         //성공했을때
         guard let email = emailTextField.text, let password = passwordTextField.text else {
-            print("Invalid email or password")
             return
         }
         
