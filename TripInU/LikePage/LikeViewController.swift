@@ -1,13 +1,13 @@
 //
-//  MyPageViewController.swift
+//  LikeViewController.swift
 //  TripInU
 //
-//  Created by 박다미 on 2023/05/05.
+//  Created by 박다미 on 2023/05/11.
 //
 
 import UIKit
 
-class MyPageViewController: UIViewController {
+class LikeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

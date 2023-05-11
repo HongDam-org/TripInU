@@ -1,18 +1,18 @@
 //
-//  MyPageViewController.swift
+//  CategoryViewController.swift
 //  TripInU
 //
-//  Created by 박다미 on 2023/05/05.
+//  Created by 박다미 on 2023/05/11.
 //
 
 import UIKit
 
-class MyPageViewController: UIViewController {
+class CategoryViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         view.backgroundColor = .white
+        // Do any additional setup after loading the view.
     }
     
 

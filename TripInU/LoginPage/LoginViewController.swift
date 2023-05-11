@@ -357,12 +357,8 @@ class LoginViewController: UIViewController {
                 
                 print( "\(user.email ?? "")")
                 
-                //let homeViewController = HomeViewController()
-                
-                let viewController = ViewController()
-                viewController .modalPresentationStyle = .fullScreen
-                self?.present(viewController ,animated: true,completion: nil)
-                
+
+                self!.mainTabbarPage()
             }
             
             
@@ -387,8 +383,47 @@ class LoginViewController: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
-    
+    func mainTabbarPage(){
+        
+        
+        // 탭바컨트롤러의 생성
+        let tabBarVC = UITabBarController()
+        // 첫번째 화면은 네비게이션컨트롤러로 만들기 (기본루트뷰 설정)
+        let vc1 = UINavigationController(rootViewController: HomeViewController())
+        let vc2 = CategoryViewController()
+        let vc3 = PostViewController() //미정
+        let vc4 = LikeViewController()
+        let vc5 = MyPageViewController()
+        
+        // 탭바 이름들 설정
+        vc1.title = "Home"
+        vc2.title = "Category"
+        vc3.title = "Post"
+        vc4.title = "Likes"
+        vc5.title = "MyPage"
+        
+        // 탭바로 사용하기 위한 뷰 컨트롤러들 설정
+        tabBarVC.setViewControllers([vc1, vc2, vc3, vc4, vc5], animated: false)
+        tabBarVC.modalPresentationStyle = .fullScreen
+        tabBarVC.tabBar.backgroundColor = .white
+       
+        // 탭바 이미지 설정 (이미지는 애플이 제공하는 것으로 사용)
+        guard let items = tabBarVC.tabBar.items else { return }
+        
+        items[0].image = UIImage(systemName: "house")
+        items[1].image = UIImage(systemName: "folder")
+        items[2].image = UIImage(systemName: "paperplane")
+        items[3].image = UIImage(systemName: "heart")
+        items[4].image = UIImage(systemName: "person")
+        
+        
+        // 프리젠트로 탭바를 띄우기
+        self.present(tabBarVC, animated: true, completion: nil)
+        
+    }
 }
+    
+
 
 extension LoginViewController: UITextFieldDelegate {
     // MARK: - 텍스트필드 편집 시작할때의 설정 - 문구가 위로올라가면서 크기 작아지고, 오토레이아웃 업데이트
@@ -466,6 +501,7 @@ extension LoginViewController: UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
+    
 }
 
 
@@ -493,8 +529,7 @@ extension LoginViewController: GIDSignInDelegate {
 
             print("User successfully signed in with Google")
             
-            self.navigationController?.pushViewController(ViewController(), animated: true)
-
+            self.mainTabbarPage()
         }
     }
 }
@@ -507,7 +542,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
-
+            
             let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: String(data: appleIDCredential.identityToken!, encoding: .utf8)!, rawNonce: "")
             Auth.auth().signIn(with: credential) { (authResult, error) in
                 if let error = error {
@@ -515,11 +550,8 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                     return
                 }
                 
-                // User is signed in
-                self.navigationController?.pushViewController(ViewController(), animated: true)
-
+                self.mainTabbarPage()
                 
-              
             }
         }
     }
